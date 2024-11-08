@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  site:
+    image: hiperstream/developers-portal:debug
+    build:
+      target: debug
+      args:
+        - NODE_ENV=development
+        - CLIENT_PORT=5050
+        - SERVER_PORT=5056
+    environment:
+      DEBUG_ENVIRONMENT_NAME: debug
+      APIS_ENVIRONMENT_DEVELOPMENT_APIS_0_URL: http://localhost:8080
+      APIS_ENVIRONMENT_DEVELOPMENT_APIS_0_DESCRIPTION: local
+    ports:
+      - 5050:5050
+      - 5056:5056
+    volumes:
+      - ./code/server:/code/server
+      - ./code/client:/code/client
+      - /code/server/node_modules # this is a hack to prevent the node_modules from being overwritten by the host
+      - /code/client/node_modules # this is a hack to prevent the node_modules from being overwritten by the host

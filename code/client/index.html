@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vinicius Andrade - andradev.io</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="/src/styles/loader.css" />
+  </head>
+
+  <body>
+    <noscript>
+      <strong
+        >We're sorry but vue3 doesn't work properly without JavaScript enabled.
+        Please enable it to continue.</strong
+      >
+    </noscript>
+    <div id="app">
+      <div class="loading-wrapper">
+        <object alt="Logo" id="logo" />
+      </div>
+      <script>
+        // JavaScript for dynamically switching logo based on theme
+        function updateLogo() {
+          const isDarkMode = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          ).matches;
+          const logoObject = document.getElementById("logo");
+          logoObject.data = isDarkMode
+            ? "/src/assets/loadings/dark.svg"
+            : "/src/assets/loadings/light.svg";
+        }
+
+        // Initial check
+        updateLogo();
+
+        // Listen for changes in the color scheme
+        window
+          .matchMedia("(prefers-color-scheme: dark)")
+          .addEventListener("change", updateLogo);
+      </script>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

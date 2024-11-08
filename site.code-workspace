@@ -1,0 +1,313 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "terminal.integrated.cwd": "${workspaceFolder}/code",
+    "files.associations": {
+      "*.vue": "vue",
+      "*.css": "tailwindcss"
+    }
+  },
+  "launch": {
+    "compounds": [
+      {
+        "name": "launch:client:firefox",
+        "configurations": ["launch:server", "launch:firefox"],
+        "presentation": {
+          "hidden": false,
+          "group": "Browser",
+          "order": 1
+        }
+      },
+      {
+        "name": "launch:client:edge",
+        "configurations": ["launch:server", "launch:edge"],
+        "presentation": {
+          "hidden": false,
+          "group": "Browser",
+          "order": 1
+        }
+      },
+      {
+        "name": "launch:client:chrome",
+        "configurations": ["launch:server", "launch:chrome"],
+        "presentation": {
+          "hidden": false,
+          "group": "Browser",
+          "order": 1
+        }
+      }
+    ],
+    "configurations": [
+      {
+        "type": "firefox",
+        "request": "launch",
+        "name": "launch:firefox",
+        "url": "https://localhost:5523",
+        "webRoot": "${workspaceFolder}/code/client/src",
+        "reAttach": true,
+        "reloadOnChange": {
+          "watch": "${workspaceFolder}/code/client/*",
+          "ignore": "**/node_modules/**"
+        },
+        "skipFiles": [
+          "<node_internals>/**/*.js",
+          "**/<node_internals>/**/*.js",
+          "**/node_modules/**/*.js",
+          "**/runtime.js",
+          "**/polyfills.js",
+          "**/vendor.js",
+          "**/analytics.js"
+        ],
+        "preLaunchTask": "serve-ui",
+        "presentation": {
+          "hidden": true,
+          "group": "",
+          "order": 1
+        }
+      },
+      {
+        "type": "msedge",
+        "request": "launch",
+        "name": "launch:edge",
+        "url": "https://localhost:5523",
+        "webRoot": "${workspaceFolder}/code/client/src",
+        "sourceMaps": true,
+        "sourceMapPathOverrides": {
+          "src/*": "${webRoot}/*"
+        },
+        "skipFiles": [
+          "<node_internals>/**/*.js",
+          "**/<node_internals>/**/*.js",
+          "**/node_modules/**/*.js",
+          "**/runtime.js",
+          "**/polyfills.js",
+          "**/vendor.js",
+          "**/analytics.js"
+        ],
+        "preLaunchTask": "serve-ui",
+        "presentation": {
+          "hidden": true,
+          "group": "",
+          "order": 1
+        }
+      },
+      {
+        "type": "chrome",
+        "request": "launch",
+        "name": "launch:chrome",
+        "url": "https://localhost:5523",
+        "webRoot": "${workspaceFolder}/code/client/src",
+        "sourceMaps": true,
+        "sourceMapPathOverrides": {
+          "src/*": "${webRoot}/*"
+        },
+        "skipFiles": [
+          "<node_internals>/**/*.js",
+          "**/<node_internals>/**/*.js",
+          "**/node_modules/**/*.js",
+          "**/runtime.js",
+          "**/polyfills.js",
+          "**/vendor.js",
+          "**/analytics.js"
+        ],
+        "preLaunchTask": "serve-ui",
+        "presentation": {
+          "hidden": true,
+          "group": "",
+          "order": 1
+        }
+      },
+      {
+        "type": "msedge",
+        "request": "launch",
+        "name": "docker-compose:launch:edge:debug",
+        "url": "https://localhost:5523",
+        "webRoot": "${workspaceFolder}/code/client/src",
+        "sourceMaps": true,
+        "sourceMapPathOverrides": {
+          "src/*": "${webRoot}/*"
+        },
+        "preLaunchTask": "docker:compose:up:debug",
+        "postDebugTask": "docker:compose:down:debug",
+        "presentation": {
+          "hidden": false,
+          "group": "docker-compose",
+          "order": 1
+        }
+      },
+      {
+        "type": "chrome",
+        "request": "launch",
+        "name": "docker-compose:launch:chrome:release",
+        "url": "http://localhost:5523",
+        "webRoot": "${workspaceFolder}/code/client/src",
+        "sourceMaps": true,
+        "sourceMapPathOverrides": {
+          "src/*": "${webRoot}/*"
+        },
+        "preLaunchTask": "docker:compose:up:release",
+        "postDebugTask": "docker:compose:down:release",
+        "presentation": {
+          "hidden": false,
+          "group": "docker-compose",
+          "order": 1
+        }
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "launch:server",
+        "cwd": "${workspaceFolder}/code/server",
+        "program": "${workspaceFolder}/code/server/server.js",
+        "sourceMaps": true,
+        "runtimeExecutable": "npm",
+        "runtimeArgs": ["run-script", "serve"],
+        "preLaunchTask": "npm:install:server",
+        "env": {
+          "SERVER_PORT": "5524",
+          "NODE_ENV": "debug",
+          "CLIENT_CONFIG_PATH": "${workspaceFolder}/code/client/src/configurations/settings.json",
+          "CLIENT_RELEASE_PATH": "${workspaceFolder}/code/client"
+        },
+        "presentation": {
+          "hidden": true,
+          "group": "",
+          "order": 1
+        }
+      }
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "npm:install:client",
+        "type": "shell",
+        "command": "npm install",
+        "linux": {
+          "command": "if [ -d ${workspaceFolder}/code/client/node_modules ]; then npm install fi"
+        },
+        "windows": {
+          "command": "cmd",
+          "args": [
+            "/C",
+            "if not exist ${workspaceFolder}/code/client/node_modules  npm install"
+          ]
+        },
+        "options": {
+          "cwd": "${workspaceFolder}/code/client"
+        }
+      },
+      {
+        "label": "serve-ui",
+        "type": "shell",
+        "command": "npm run dev",
+        "options": {
+          "cwd": "${workspaceFolder}/code/client",
+          "env": {
+            "CLIENT_PORT": "5523"
+          }
+        },
+        "isBackground": true,
+        "dependsOn": ["npm:install:client"],
+        "problemMatcher": [
+          {
+            "base": "$tsc-watch",
+            "background": {
+              "activeOnStart": true,
+              "beginsPattern": "VITE v",
+              "endsPattern": "ready in"
+            }
+          }
+        ]
+      },
+      {
+        "type": "docker-compose",
+        "label": "docker:compose:up:debug",
+        "isBackground": false,
+        "dockerCompose": {
+          "up": {
+            "detached": true,
+            "build": true,
+            "customOptions": "",
+            "services": ["site"]
+          },
+          "files": [
+            "${workspaceFolder}/docker-compose.yaml",
+            "${workspaceFolder}/docker-compose.debug.yaml"
+          ]
+        },
+        "problemMatcher": []
+      },
+      {
+        "type": "docker-compose",
+        "label": "docker:compose:down:debug",
+        "dockerCompose": {
+          "down": {
+            "removeVolumes": false
+          },
+          "files": [
+            "${workspaceFolder}/docker-compose.yaml",
+            "${workspaceFolder}/docker-compose.debug.yaml"
+          ]
+        }
+      },
+      {
+        "type": "docker-compose",
+        "label": "docker:compose:up:release",
+        "isBackground": false,
+        "dockerCompose": {
+          "up": {
+            "detached": true,
+            "build": true,
+            "customOptions": "",
+            "services": ["site"]
+          },
+          "files": [
+            "${workspaceFolder}/docker-compose.yaml",
+            "${workspaceFolder}/docker-compose.override.yaml"
+          ]
+        },
+        "problemMatcher": []
+      },
+      {
+        "type": "docker-compose",
+        "label": "docker:compose:down:release",
+        "dockerCompose": {
+          "down": {
+            "removeVolumes": false
+          },
+          "files": [
+            "${workspaceFolder}/docker-compose.yaml",
+            "${workspaceFolder}/docker-compose.override.yaml"
+          ]
+        }
+      },
+      {
+        "label": "npm:install:server",
+        "type": "shell",
+        "command": "npm install",
+        "linux": {
+          "command": "if [ -d ${workspaceFolder}/code/server/node_modules ]; then npm install fi"
+        },
+        "windows": {
+          "command": "cmd",
+          "args": [
+            "/C",
+            "if not exist ${workspaceFolder}/code/server/node_modules  npm install"
+          ]
+        },
+        "options": {
+          "cwd": "${workspaceFolder}/code/server"
+        }
+      }
+    ]
+  },
+  "extensions": {
+    "recommendations": ["Vue.volar"]
+  }
+}

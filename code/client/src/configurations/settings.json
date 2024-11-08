@@ -1,0 +1,13 @@
+{
+	"biography": {
+		"name": "Vinicius Andrade",
+		"birthday": "1992-06-03"
+	},
+	"social": {
+		"linkedin": "https://www.linkedin.com/in/dev-vinicius-andrade/",
+		"github": "https://github.com/dev-vinicius-andrade",
+		"stackoverflow": "https://stackoverflow.com/users/9114389/vinicius-andrade",
+		"email": "vinicius@andradev.io"
+	},
+	"authentication": {}
+}
