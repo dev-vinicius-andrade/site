@@ -3,6 +3,7 @@
     "target": "ESNext",
     "jsx": "preserve",
     "jsxFactory": "h",
+    "jsxImportSource": "vue",
     "lib": ["DOM", "ESNext", "dom.iterable", "scripthost"],
     "jsxFragmentFactory": "Fragment",
     "sourceMap": false,

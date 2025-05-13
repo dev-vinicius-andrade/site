@@ -30,7 +30,7 @@ export const usePermissionsStore = defineStore('PermissionsStore', {
 				import.meta.env.VITE_APP_AUTH_ROLES_NAMESPACE;
 
 			const userData = JSON.parse(atob(token.split('.')[1])) as User;
-			const roles = (userData[`${rolesNamespace}`] as Nullable<string[]>) ?? [];
+			const roles = (userData[`${rolesNamespace}`] as Nullable<string[]>) ?? userData?.realm_access?.roles ?? [];
 			const permissions = roles.map(role => this.getRole(role)).filter(role => !!role) as Roles[];
 			this.data.permissions = permissions;
 			return permissions;

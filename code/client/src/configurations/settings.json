@@ -9,5 +9,10 @@
 		"stackoverflow": "https://stackoverflow.com/users/9114389/vinicius-andrade",
 		"email": "vinicius@andradev.io"
 	},
-	"authentication": {}
+	"authentication": {
+		"issuerUri": "https://auth.andradev.io/realms/andradev",
+		"clientId": "OTk5NWRhZTMtODhkZS00MDJjLThkZDktODU0ZWNiMGMxMjU2",
+		"scope": "openid profile email",
+		"rolesNamespace": "roles"
+	}
 }

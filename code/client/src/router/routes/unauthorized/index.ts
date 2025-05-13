@@ -16,7 +16,7 @@ export default [
 	},
 	{
 		path: '/login',
-		component: () => import('@layouts/Blank.vue'),
+		component: () => import('@layouts/Default.vue'),
 		children: [
 			{
 				path: '',
@@ -32,9 +32,21 @@ export default [
 		],
 	},
 	{
-		path: '/forbidden/:to?',
-		name: '/forbidden',
-		props: useRouteParamsAsProperties,
-		component: () => import('@pages/forbidden/index.vue'),
+		path: '/forbidden',
+		component: () => import('@layouts/BlankFullscreen.vue'),
+		children: [
+			{
+				path: '',
+
+				children: [
+					{
+						path: ':to?',
+						name: '/forbidden',
+						props: useRouteParamsAsProperties,
+						component: () => import('@pages/forbidden/index.vue'),
+					},
+				],
+			},
+		],
 	},
 ] as RouteRecordRaw[];

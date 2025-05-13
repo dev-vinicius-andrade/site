@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
 
-export function useCloudServicesResponseValidator(
+export function useAxiosResponseValidator(
 	response?: AxiosResponse<any, any>,
 	throwErrorOnNotOkStatusCode: boolean = true,
 ) {

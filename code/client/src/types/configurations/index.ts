@@ -11,8 +11,7 @@ export declare type PermissionDataWrapper = {
 export declare type ConfigurationAuthentication = {
 	timeoutInSeconds: Nullable<number>;
 	scope: string;
-	audience: Nullable<string>;
-	domain: Nullable<string>;
+	issuerUri: Nullable<string>;
 	clientId: Nullable<string>;
 	rolesNamespace: Nullable<string>;
 };

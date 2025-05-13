@@ -1,0 +1,82 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "Site API",
+		"version": "v1"
+	},
+	"servers": [
+		{
+			"url": "https://localhost:7178"
+		},
+		{
+			"url": "http://localhost:51403"
+		}
+	],
+	"paths": {
+		"/v1/supported-language": {
+			"get": {
+				"tags": [
+					"Site.Presentation.Api"
+				],
+				"operationId": "ListSupportedLanguage",
+				"requestBody": {
+					"content": {
+						"*/*": {
+							"schema": {
+								"$ref": "#/components/schemas/ListRequest"
+							}
+						},
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ListRequest"
+							}
+						}
+					},
+					"required": true
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SupportedLanguageResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"ListRequest": {
+				"type": "object",
+				"properties": {
+					"skip": {
+						"type": "integer",
+						"format": "int32",
+						"nullable": true
+					},
+					"take": {
+						"type": "integer",
+						"format": "int32",
+						"nullable": true
+					}
+				}
+			},
+			"SupportedLanguageResponse": {
+				"type": "object"
+			}
+		}
+	},
+	"tags": [
+		{
+			"name": "Site.Presentation.Api"
+		}
+	]
+}

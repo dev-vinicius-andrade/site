@@ -1,0 +1,33 @@
+# https://taskfile.dev
+
+version: '3'
+dotenv:
+  - .env
+  
+vars:
+  vite_plugin_openapi_client_generator_package: "@codescovery/vite-plugin-openapi-client-generator"
+
+tasks:
+  prepare:create_dot_env_from_example:
+    desc: "Create .env from .env.example"
+    dir: '{{.USER_WORKING_DIR}}'
+    cmds: 
+    - platforms: [windows]
+      cmd:  cmd /C copy .env.example .env
+    - platforms: [linux, darwin]
+      cmd: cp .env.example .env
+  npm:uninstall_vite_plugin_openapi_client_generator_package:
+    desc: "npm uninstall @codescovery/vite-plugin-openapi-client-generator_package"
+    dir: '{{.USER_WORKING_DIR}}/code/client'
+    cmds: 
+    - npm uninstall {{.vite_plugin_openapi_client_generator_package}}
+  npm:install_package_vite_plugin_openapi_client_generator_package:
+    desc: "npm install package @codescovery/vite-plugin-openapi-client-generator"
+    dir: '{{.USER_WORKING_DIR}}/code/client'
+    cmds: 
+    - npm install --save-dev {{.vite_plugin_openapi_client_generator_package}} --registry $NPM_LOCAL_REGISTRY_URL
+  npm:reinstall_vite_plugin_openapi_client_generator_package:
+    desc: "Reinstall @codescovery/vite-plugin-openapi-client-generator_package"
+    cmds: 
+    - task npm:uninstall_vite_plugin_openapi_client_generator_package
+    - task npm:install_package_vite_plugin_openapi_client_generator_package

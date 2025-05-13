@@ -1,6 +1,8 @@
 import { ComputedRef } from 'vue';
 // import { getText } from '@/helpers';
 import { Menu } from '@/types/menu/item';
+import { Position } from '@/enums/position';
+import Roles from '@/enums/auth/roles';
 // import Roles from '@/enums/auth/roles';
 // import { Position } from '@/enums/position';
 function getMenuItems(): { menuItems: ComputedRef<Menu[]> } {
@@ -11,7 +13,21 @@ function getMenuItems(): { menuItems: ComputedRef<Menu[]> } {
 		// 	to: { name: '/users' },
 		// 	position: Position.left,
 		// 	authorizedRoles: [Roles.ENGINEERING],
-		// },
+		// }
+		{
+			title: getText({ key: 'menu.home' }),
+			prependIcon: 'mdi-home',
+			to: { name: '/' },
+			position: Position.left,
+			authorizedRoles: [Roles.NONE],
+		},
+		{
+			title: getText({ key: 'menu.admin' }),
+			prependIcon: 'mdi-cog',
+			to: { name: '/admin' },
+			position: Position.right,
+			authorizedRoles: [Roles.ADMIN],
+		},
 	]);
 	return { menuItems };
 }

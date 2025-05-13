@@ -8,6 +8,7 @@
 // @use 'vuetify/settings' with (
 //   $color-pack: false
 // );
+@import '@theme/common.scss';
 @import '@theme/light.scss';
 @import '@theme/dark.scss';
 @import "tailwindcss/base";
@@ -16,3 +17,5 @@
 * {
   font-family: "JetBrains Mono", monospace;
 }
+
+

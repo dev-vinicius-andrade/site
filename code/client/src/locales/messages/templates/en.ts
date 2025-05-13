@@ -17,6 +17,7 @@ export const messages: LocaleMessagesTemplates = {
 		failedToActionWithStatus: 'Failed to {action}. Status code: {status}',
 		iAm: 'I am {name}, {role}',
 		age: '{age} years old',
+		yearsOfExperience: '{years} years of experience',
 		// Add your templates here
 	},
 };

@@ -23,6 +23,17 @@ Experiência em resolver problemas complexos, gerenciar projetos de desenvolvime
 				knownProgramingLanguages: 'Linguagens de Programação Conhecidas',
 				freelanceProjects: 'Projetos Freelance',
 			},
+			experience: {
+				summary: `
+Experiência no desenvolvimento de APIs RESTful, webhooks e worker services utilizando .NET Core, .NET 5, .NET 6, Node.js e ASP.NET MVC.
+Arquitetura de software, utilizando Domain-Driven Design (DDD), Test-Driven Development (TDD) e princípios de código limpo, assegurando a manutenibilidade e escalabilidade das aplicações.
+Desenvolvimento e gerenciamento de pacotes NuGet personalizados para reutilização de código e modularidade em múltiplos projetos.
+Implementação de aplicações em tempo real com WebSockets e SignalR.
+Sólida experiência na criação de imagens Docker e na containerização de aplicações.
+Amplo conhecimento em sistemas de mensageria e brokers de mensagens, como RabbitMQ, Azure Service Bus e Google Pub/Sub.
+Embora design não seja meu foco principal, tenho experiência no desenvolvimento de aplicações com Angular, Vue2, Vue3.
+        `,
+			},
 		},
 	},
 };

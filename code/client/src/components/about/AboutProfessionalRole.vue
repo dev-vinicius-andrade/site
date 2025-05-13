@@ -5,8 +5,8 @@
 				<MultiColorText
 					:text="getTextFromKey('texts.softwareEngineer')"
 					:lines-options="[
-						{ color: '', groupLines: [0] },
-						{ color: 'tw-text-slate-700', groupLines: [1, 2] },
+						{ color: 'tw-text-app-primary', groupLines: [0], class: 'tw-text-[70px]' },
+						{ color: 'tw-text-app-secondary', groupLines: '*', class: 'tw-text-[70px]' },
 					]"
 					uppercase
 					bold
@@ -15,15 +15,15 @@
 				</MultiColorText>
 			</span>
 		</VRow>
-		<RowCentralizedContent
+		<RowLeftContent
 			class="tw-w-full tw-p-0 !tw-mt-5"
 			content-columns="auto"
-			content-column-classes="tw-p-0 tw-text-justify"
+			content-column-classes="tw-p-0 tw-text-justify tw-whitespace-pre tw-text-wrap"
 		>
-			<span class="tw-text-justify">
+			<span>
 				{{ getTextFromKey('components.about.professionalRole') }}
 			</span>
-		</RowCentralizedContent>
+		</RowLeftContent>
 	</VContainer>
 </template>
 <style></style>

@@ -13,6 +13,10 @@ import Icons from "unplugin-icons/vite";
 import { defineConfig } from "vite";
 import { fileURLToPath, URL } from "node:url";
 import { viteStaticCopy } from "vite-plugin-static-copy";
+import { openAPIWatcherPlugin } from "@codescovery/vite-plugin-openapi-client-generator";
+
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
+
 const IconResolver = ViteIconsResolver({
   componentPrefix: "iconify",
   enabledCollections: [
@@ -39,6 +43,24 @@ export default defineConfig({
   },
   plugins: [
     process.env.NODE_ENV === "development" ? mkcert() : null,
+    openAPIWatcherPlugin(
+      "https://localhost:7178/openapi/v1.json",
+      "src/services/api",
+      {
+        type: "typescript-axios",
+
+        // axios: axios.create({
+        //   httpAgent: new https.Agent({ rejectUnauthorized: false }),
+        // }),
+        excludeFiles: [
+          ".gitignore",
+          "git_push.sh",
+          ".openapi-generator-ignore",
+          ".npmignore",
+          ".openapi-generator",
+        ],
+      }
+    ),
     Vue({
       template: { transformAssetUrls },
       script: {
@@ -110,6 +132,10 @@ export default defineConfig({
         {
           src: "./src/configurations/*",
           dest: "configurations",
+        },
+        {
+          src: "./src/assets/markdowns/*",
+          dest: "assets/markdowns",
         },
       ],
     }),

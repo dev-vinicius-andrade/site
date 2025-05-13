@@ -1,0 +1,78 @@
+$default-font-family: "JetBrains Mono", monospace;
+$app-scrollbar-width:thin;
+$app-scroll-bar-border-width: 10px;
+$app-scrollbar-border-radius: 10px;
+$app-scrollbar-border-style: solid;
+$app-scrollbar-space-between-thumb-and-track-color: #f4f4f4;
+$app-scrollbar-hover-thumb-color: #6b6b6b;
+$app-scrollbar-background-color: transparent;
+$app-scrollbar-color: var(--app-primary) transparent;
+:root {
+    --default-font-family: #{$default-font-family};
+    --app-scrollbar-width: #{$app-scrollbar-width};
+    --app-scroll-bar-border-width: #{$app-scroll-bar-border-width};
+    --app-scrollbar-border-radius: #{$app-scrollbar-border-radius};
+    --app-scrollbar-border-style: #{$app-scrollbar-border-style};
+    --app-scrollbar-space-between-thumb-and-track-color: #{$app-scrollbar-space-between-thumb-and-track-color};
+    --app-scrollbar-hover-thumb-color: #{$app-scrollbar-hover-thumb-color};
+    --app-scrollbar-background-color: #{$app-scrollbar-background-color};
+    --app-scrollbar-color: #{$app-scrollbar-color};
+}
+.app-border-text {
+    text-shadow: var(--app-text-border-size) var(--app-text-border-size) 0 var(--app-text-border-color),
+    calc(var(--app-text-border-size) * -1) var(--app-text-border-size) 0 var(--app-text-border-color),
+    var(--app-text-border-size) calc(var(--app-text-border-size) * -1) 0 var(--app-text-border-color),
+    calc(var(--app-text-border-size) * -1) calc(var(--app-text-border-size) * -1) 0 var(--app-text-border-color);
+}
+.app-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: $app-scrollbar-hover-thumb-color;
+}
+
+.app-scrollbar::-moz-scrollbar-button:decrement,
+::-moz-scrollbar-button:increment,
+::-webkit-scrollbar-button:decrement,
+::-webkit-scrollbar-button:increment
+{ 
+    display: none;
+    width: 0px!important;
+    height: 0px!important;
+}
+.app-scrollbar {
+  --app-scrollbar-border-radius: $app-scrollbar-border-radius; 
+  scrollbar-width: $app-scrollbar-width;
+  scrollbar-color: $app-scrollbar-color
+}
+/* Chrome, Edge, and Safari (WebKit Browsers) */
+.app-scrollbar::-webkit-scrollbar {
+    width: 10px; /* Adjust the scrollbar width */
+    height: 10px; /* For horizontal scrollbars */
+}
+.app-scrollbar::-webkit-scrollbar-track {
+    background: $app-scrollbar-background-color;
+    border-radius: $app-scrollbar-border-radius;
+  }
+.app-scrollbar::-webkit-scrollbar-thumb {
+    background: $app-scrollbar-color;
+    border-radius: $app-scrollbar-border-radius;
+    border: $app-scroll-bar-border-width $app-scrollbar-border-style $app-scrollbar-space-between-thumb-and-track-color;
+}
+.app-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: $app-scrollbar-hover-thumb-color;
+}
+/* Hide up/down arrows in Chrome */
+.app-scrollbar::-webkit-scrollbar-button {
+    display: none; /* Completely hides the arrows */
+    width: 0;
+    height: 0;
+}
+/* Firefox-specific pseudo-elements */
+.app-scrollbar::-moz-scrollbar-button {
+    display: none;
+}
+.app-scrollbar::-webkit-scrollbar-button:increment,
+.app-scrollbar::-webkit-scrollbar-button:decrement {
+  display: none;
+}
+* {
+    font-family: $default-font-family;
+}

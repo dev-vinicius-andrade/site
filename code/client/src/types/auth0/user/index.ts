@@ -24,6 +24,14 @@ export declare type User = {
 	id?: string;
 	permissions?: string[];
 	metaData?: IUserMetaData;
+	realm_access?: {
+		roles?: string[];
+	};
+	resource_access?: {
+		[key: string]: {
+			roles?: string[];
+		};
+	};
 };
 
 export default User;

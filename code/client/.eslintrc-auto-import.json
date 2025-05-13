@@ -393,6 +393,15 @@
     "useResponsibleColumns": true,
     "defaultResponsibleColumnsBreakpointsOptions": true,
     "useResponsibleColumnsFromListLength": true,
-    "exportUseTimeSpan": true
+    "exportUseTimeSpan": true,
+    "useLocaleMarkdown": true,
+    "useAxiosAuthenticationInterceptor": true,
+    "useAxiosAuthenticationBearerInterceptor": true,
+    "createApi": true,
+    "useApiBuilderOf": true,
+    "useApi": true,
+    "useAxiosResponseValidator": true,
+    "ConditionOperator": true,
+    "DatatableServerSortByOrder": true
   }
 }

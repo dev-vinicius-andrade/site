@@ -64,3 +64,16 @@ export enum Locales {
 	pt = 'pt',
 	en = 'en',
 }
+export enum ConditionOperator {
+	Contains = 'contains',
+	Equals = '==',
+	NotEquals = '!=',
+	GreaterThan = '>',
+	LessThan = '<',
+	GreaterThanOrEqual = '>=',
+	LessThanOrEqual = '<=',
+}
+export enum DatatableServerSortByOrder {
+	asc = 'asc',
+	desc = 'desc',
+}

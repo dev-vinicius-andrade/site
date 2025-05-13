@@ -24,5 +24,5 @@ export async function registerPlugins(app: App) {
 	const configurationsStore = useConfigurationsStore();
 	await configurationsStore.loadConfiguration();
 	const authStore = useAuthStore();
-	authStore.bootstrapAuthService(configurationsStore.configurations);
+	await authStore.bootstrapAuthService(configurationsStore.configurations);
 }

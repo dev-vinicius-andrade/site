@@ -12,7 +12,6 @@ import { Compartment, EditorState, Extension } from '@codemirror/state';
 import { highlightSelectionMatches } from '@codemirror/search';
 import {
 	rectangularSelection,
-	lineNumbers,
 	highlightActiveLineGutter,
 	highlightSpecialChars,
 	drawSelection,
@@ -21,7 +20,7 @@ import {
 } from '@codemirror/view';
 import { useCodeMirror } from '@/components/codemirror/composables';
 import { getLanguage } from '@/components/codemirror/languages';
-import { LanguageSupport } from '@codemirror/language';
+
 declare type ComponentProperties = {
 	codeBackgroundColor?: string;
 	modelValue?: string;
@@ -50,18 +49,18 @@ const {
 	autocompletion,
 	bracketMatching,
 	closeBrackets,
-	defaultHighlightStyle,
+	// defaultHighlightStyle,
 	foldGutter,
-	getIndentation,
-	getSelectedLanguageIndentation,
+	// getIndentation,
+	// getSelectedLanguageIndentation,
 	getTheme,
-	getThemes,
+	// getThemes,
 	history,
 	indentOnInput,
-	indentSelectedLanguage,
+	// indentSelectedLanguage,
 	indentService,
-	indentWithTab,
-	syntaxHighlighting,
+	// indentWithTab,
+	// syntaxHighlighting,
 } = useCodeMirror();
 
 const codeMirrorConfig = ref<CodemirrorConfigData>({});

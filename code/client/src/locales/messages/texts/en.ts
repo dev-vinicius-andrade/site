@@ -5,5 +5,12 @@ export const messages: LocaleMessagesTexts = {
 		hello: 'Hello',
 		whoAmI: 'Who am I?',
 		softwareEngineer: 'Software Engineer',
+		itemsPerPage: 'Items per page',
+		search: 'Search',
+		contains: 'Contains',
+		equals: 'Equals',
+		notEquals: 'Not Equals',
+		greaterThan: 'Greater Than',
+		lessThan: 'Less Than',
 	},
 };

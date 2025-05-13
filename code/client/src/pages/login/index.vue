@@ -1,15 +1,23 @@
 <template>
-	<VContainer>
-		<RowCentralizedContent>
+	<VContainer fluid class="!tw-h-dvh !tw-p-0 !tw-m-0">
+		<RowCentralizedContent content-columns="6" class="!tw-h-screen tw-items-center">
 			<VCard elevation="5">
 				<VCardActions>
 					<VSpacer />
 					<LocaleSelector />
 				</VCardActions>
 				<VEmptyState :image="logo" :min-width="width">
-					<RowCentralizedContent content-columns="12">
-						<VCardTitle class="tw-text-wrap tw-text-center">{{ headline }}</VCardTitle>
-					</RowCentralizedContent>
+					<template #headline>
+						<RowCentralizedContent content-columns="12">
+							<VCardTitle class="tw-text-wrap tw-text-center"
+								>{{ headline }} {{ getTextFromKey('pages.login.headLineAppend') }}
+								<span class="tw-font-bold"
+									>andradev<span class="tw-text-app-secondary">.io</span></span
+								></VCardTitle
+							>
+						</RowCentralizedContent>
+					</template>
+
 					<RowCentralizedContent content-columns="12">
 						<VCardSubtitle class="tw-text-wrap tw-text-center">
 							{{ description }}
@@ -51,21 +59,25 @@
 </template>
 <script setup lang="ts">
 import { useLogo } from '@/composables/useLogo';
+
 import { useAuthStore } from '@/stores/auth';
 import { useConfigurationsStore } from '@/stores/configuration';
 const { logo } = useLogo();
 const authStore = useAuthStore();
+
 const configurationStore = useConfigurationsStore();
-const router = useRouter();
+
 const width = ref<string>('256px');
 const headline = computed(() => getTextFromKey('pages.login.headline'));
 const description = computed(() => getTextFromKey('pages.login.description'));
 const loginButtonText = computed(() => getTextFromKey('pages.login.button'));
+
 const disableLoginButton = ref<boolean>(true);
 const isReloadingConfigurations = ref<boolean>(false);
 async function auth() {
 	await authStore.login();
 }
+
 const disabledLoginInfo = computed(() => {
 	const reason = getTextFromKey('pages.login.disabledLoginAlert.reasons.configurationsNotLoaded');
 	return {
@@ -87,6 +99,6 @@ async function reloadConfigurations() {
 	isReloadingConfigurations.value = false;
 }
 onMounted(async () => {
-	router.push(authStore?.getUserHomeRoute());
+	//router.push(authStore?.getUserHomeRoute());
 });
 </script>

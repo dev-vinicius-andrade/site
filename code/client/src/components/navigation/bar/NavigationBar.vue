@@ -31,6 +31,9 @@
 			<VCol cols="auto">
 				<ThemeSelector show-icon />
 			</VCol>
+			<VCol cols="auto" class="mr-2">
+				<NavigationBarAccountButton show-icon />
+			</VCol>
 		</VRow>
 		<VNavigationDrawer v-if="display.smAndDown.value" v-model="showNavigationbar" :class="navigationDrawerClass">
 			<NavigationMenuList :model-value="navigationDrawerMenuItems" />

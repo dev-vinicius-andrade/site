@@ -22,7 +22,6 @@
 	</VContainer>
 </template>
 <script setup lang="ts">
-import { LocaleText } from '@/types/locale/text';
 import { VCardText } from 'vuetify/components';
 
 declare type ExperienceTotal = {

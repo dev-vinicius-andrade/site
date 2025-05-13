@@ -336,5 +336,15 @@ export const messages: LocaleMessagesVariations = {
 			countCammelCased: 'Nenhuma empresa | Empresa | Empresas({count})',
 			countPascalCased: 'Nenhuma Empresa | Empresa | Empresas({count})',
 		} as Variation,
+		supportedLanguage: {
+			text: 'idioma suportado | idiomas suportados',
+			Text: 'Idioma suportado | Idiomas suportados',
+			textCammelCased: 'Idioma suportado | Idiomas suportados',
+			textPascalCased: 'Idioma suportado | Idiomas suportados',
+			count: 'nenhum idioma suportado | idioma suportado | idiomas suportados({count})',
+			Count: 'Nenhum idioma suportado | Idioma suportado | Idiomas suportados({count})',
+			countCammelCased: 'Nenhum idioma suportado | Idioma suportado | Idiomas suportados({count})',
+			countPascalCased: 'Nenhum Idioma suportado | Idioma suportado | Idiomas suportados({count})',
+		} as Variation,
 	},
 };

@@ -20,9 +20,16 @@ export default createVuetify({
 				colors: {
 					background: '#121212',
 					surface: '#222',
+					secondary: 'var(--app-secondary)',
+					primary: 'var(--app-primary)',
 				},
 			},
-			light: {},
+			light: {
+				colors: {
+					secondary: 'var(--app-secondary)',
+					primary: 'var(--app-primary)',
+				},
+			},
 		},
 	},
 	defaults: {

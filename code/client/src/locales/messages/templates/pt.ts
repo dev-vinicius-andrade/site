@@ -16,6 +16,7 @@ export const messages: LocaleMessagesTemplates = {
 		noDataAvailable: 'Nenhum dado disponível',
 		failedToActionWithStatus: 'Falha ao {action}. Código de status: {status}',
 		age: '{age} anos',
+		yearsOfExperience: '{years} anos de experiência',
 		// Add your templates here
 	},
 };

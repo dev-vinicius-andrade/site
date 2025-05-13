@@ -12,4 +12,19 @@ export default [
 		}),
 		children: [],
 	},
+	{
+		path: '/admin',
+		component: () => import('@layouts/Main.vue'),
+		beforeEnter: useNavigationGuard({
+			authorizedRoles: [Roles.ADMIN],
+			requiresAuth: true,
+		}),
+		children: [
+			{
+				path: '',
+				name: '/admin',
+				component: () => import('@pages/admin/index.vue'),
+			},
+		],
+	},
 ] as RouteRecordRaw[];

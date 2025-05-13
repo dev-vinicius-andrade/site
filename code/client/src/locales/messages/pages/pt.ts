@@ -8,8 +8,9 @@ export const messages: LocaleMessagesPages = {
 			route: 'Rota: {route}',
 		},
 		login: {
-			headline: 'Bem-vindo ao portal do desenvolvedor hiperstream',
-			description: 'Faça login para continuar no portal do desenvolvedor.',
+			headline: 'Bem-vindo',
+			headLineAppend: 'à',
+			description: 'Faça login para continuar.',
 			button: 'Login',
 			callback: {
 				error: {

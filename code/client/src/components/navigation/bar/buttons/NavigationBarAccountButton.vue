@@ -1,5 +1,6 @@
 <template>
-	<ButtonDropdown>
+	<VBtn v-if="!isLogged" @click.stop="authStore.login">{{ loginButtonLabel }}</VBtn>
+	<ButtonDropdown v-else>
 		<template #activator="{ props }">
 			<VBtn v-if="isLogged" v-bind="props" variant="plain" prepend-icon="mdi-account">{{
 				getText({ key: 'menu.account' })
@@ -17,7 +18,8 @@ import { useAuthStore } from '@/stores/auth';
 
 const authStore = useAuthStore();
 const isLogged = ref<boolean>(false);
+const loginButtonLabel = computed(() => getTextFromKey('buttons.login'));
 onMounted(async () => {
-	isLogged.value = await authStore.isLogged();
+	isLogged.value = authStore.isLogged();
 });
 </script>

@@ -4,5 +4,6 @@ export const messages: LocaleMenu = {
 		account: 'Account',
 		logout: 'Logout',
 		home: 'Home',
+		admin: 'Admin',
 	},
 };

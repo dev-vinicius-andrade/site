@@ -2,15 +2,16 @@ import { defineStore } from 'pinia';
 
 import { Nullable } from '@/types/nullable';
 import { RouteLocation, RouteLocationRaw, RouteLocationNormalized } from 'vue-router';
-import { Auth0Client, Auth0ClientOptions, createAuth0Client } from '@auth0/auth0-spa-js';
+import { createOidc } from 'oidc-spa';
 import { useTypedStorage } from '@composables/useTypedStorage';
 import { User } from '@/types/auth0/user';
-import { useConfigurationsStore } from '@/stores/configuration';
+
 import { usePermissionsStore } from '@/stores/permissions';
 import { useLocaleStore } from '@/stores/locale';
 import { useUserStore } from '@/stores/user';
 import { useRouterStore } from '@/stores/router';
 import { ConfigurationType } from '@/types/configurations';
+import { Oidc, ParamsOfCreateOidc } from 'oidc-spa/oidc';
 export interface IAuthStoreState {
 	accessToken: Nullable<string>;
 	isAuthenticated: boolean;
@@ -19,39 +20,33 @@ const defaultData: IAuthStoreState = {
 	accessToken: null,
 	isAuthenticated: false,
 };
+export declare type OidcData = {} & Record<string, unknown>;
 
 export const useAuthStore = defineStore('AuthStore', {
 	state: () => {
 		return {
 			data: useTypedStorage<IAuthStoreState>('authData', defaultData),
-			authService: null as Nullable<Auth0Client>,
+			authService: null as Nullable<Oidc<OidcData>>,
 		};
 	},
 	actions: {
-		async isLogged(): Promise<boolean> {
-			try {
-				const isAuthenticated = await this.authService?.isAuthenticated();
-				if (isAuthenticated) return true;
-				const token = await this.getToken();
-				return !!token;
-			} catch (error) {
-				return false;
-			}
+		isLogged(): boolean {
+			const isAuthenticated = this.authService?.isUserLoggedIn;
+
+			return isAuthenticated === true;
 		},
 		async renewToken(): Promise<string | undefined> {
 			try {
-				const configurationsStore = useConfigurationsStore();
-
-				const token = await this.authService?.getTokenSilently({
-					timeoutInSeconds: configurationsStore?.configurations?.authentication?.timeoutInSeconds ?? 1,
-					cacheMode: 'off',
-				});
+				// const configurationsStore = useConfigurationsStore();
+				if (!this.authService?.isUserLoggedIn) return undefined;
+				await this.authService.renewTokens();
+				const token = this.authService.getTokens();
 				if (!token) return undefined;
-				this.data.accessToken = token;
+				this.data.accessToken = token.accessToken;
 				const permissionsStore = usePermissionsStore();
-				permissionsStore.setPermissions(token);
+				permissionsStore.setPermissions(token.accessToken);
 
-				return token;
+				return token.accessToken;
 			} catch (error) {
 				return undefined;
 			}
@@ -67,17 +62,16 @@ export const useAuthStore = defineStore('AuthStore', {
 			try {
 				if (!this.isAccessTokenExpired(this.data?.accessToken)) return this.data.accessToken as string;
 
-				const configurationsStore = useConfigurationsStore();
+				// const configurationsStore = useConfigurationsStore();
+				if (!this.authService?.isUserLoggedIn) return undefined;
+				const token = await this.authService?.getTokens();
 
-				const token = await this.authService?.getTokenSilently({
-					timeoutInSeconds: configurationsStore?.configurations?.authentication?.timeoutInSeconds ?? 1,
-				});
 				if (!token) return undefined;
-				this.data.accessToken = token;
+				this.data.accessToken = token.accessToken;
 				const permissionsStore = usePermissionsStore();
-				permissionsStore.setPermissions(token);
+				permissionsStore.setPermissions(token.accessToken);
 
-				return token;
+				return token.accessToken;
 			} catch (error) {
 				return undefined;
 			}
@@ -92,12 +86,20 @@ export const useAuthStore = defineStore('AuthStore', {
 			try {
 				const localeStore = useLocaleStore();
 				if (!this.authService) return false;
-				await this.authService?.loginWithRedirect({
-					authorizationParams: {
-						ui_locales: localeStore.currentLocale.locale,
-						redirect_uri: `${window.location.origin}/login/callback`,
+				if (this.authService?.isUserLoggedIn) return true;
+				await this.authService.login({
+					doesCurrentHrefRequiresAuth: true,
+					redirectUrl: `${window.location.origin}/login/callback`,
+					extraQueryParams: {
+						kc_locale: localeStore.currentLocale.locale,
 					},
 				});
+				// await this.authService.loginWithRedirect({
+				// 	authorizationParams: {
+				// 		ui_locales: localeStore.currentLocale.locale,
+				// 		redirect_uri: `${window.location.origin}/login/callback`,
+				// 	},
+				// });
 				return true;
 			} catch (error) {
 				console.error(error);
@@ -108,6 +110,7 @@ export const useAuthStore = defineStore('AuthStore', {
 			try {
 				const router = useRouter();
 				if (!this.authService) return false;
+				if (!this.authService?.isUserLoggedIn) return false;
 				this.clearData();
 				const permissionsStore = usePermissionsStore();
 				const userStore = useUserStore();
@@ -115,10 +118,8 @@ export const useAuthStore = defineStore('AuthStore', {
 				userStore.clearData();
 				this.data.isAuthenticated = false;
 				await this.authService?.logout({
-					logoutParams: {
-						returnTo: `${window.location.origin}/login`,
-						federated: false,
-					},
+					redirectTo: 'specific url',
+					url: `${window.location.origin}/login`,
 				});
 				await router.push({ name: '/login' });
 				return true;
@@ -134,24 +135,27 @@ export const useAuthStore = defineStore('AuthStore', {
 			userStore.clearData();
 		},
 		getUserHomeRoute(): RouteLocation | RouteLocationRaw | RouteLocationNormalized | string {
-			if (!this.authService?.isAuthenticated) return { name: '/login' };
 			const routeStore = useRouterStore();
-			if (routeStore.lastRoute) return routeStore.lastRoute;
-			return { name: '/apis' };
+			const ignoredRoutesNames = ['/login', '/login/callback', '/forbidden'];
+			if (routeStore.lastRoute && !ignoredRoutesNames.includes(routeStore.lastRoute.name as string))
+				return routeStore.lastRoute;
+			return { name: '/' };
 		},
 		async bootstrapAuthService(configurations: ConfigurationType) {
 			const authOptions = {
-				domain: configurations?.authentication?.domain ?? import.meta.env.VITE_APP_AUTH_URL,
+				issuerUri: configurations?.authentication?.issuerUri ?? import.meta.env.VITE_APP_AUTH_ISSUER_URI,
+				publicUrl: '/',
 				clientId: configurations?.authentication?.clientId ?? import.meta.env.VITE_APP_AUTH_CLIENT_ID,
 				authorizationParams: {
 					scope: (configurations?.authentication?.scope ?? import.meta.env.VITE_APP_AUTH_SCOPE) || '',
 					redirect_uri: `${window.location.origin}/login/callback`,
 					cacheLocation: 'localstorage',
-					audience:
-						(configurations?.authentication?.audience ?? import.meta.env.VITE_APP_AUTH_AUDIENCE) || '',
+					// audience:
+					// 	(configurations?.authentication?.audience ?? import.meta.env.VITE_APP_AUTH_AUDIENCE) || '',
 				},
-			} as Auth0ClientOptions;
-			this.authService = await createAuth0Client(authOptions);
+			} as ParamsOfCreateOidc;
+			this.authService = await createOidc<OidcData>(authOptions);
+			console.log('this.authService', this.authService);
 		},
 	},
 });

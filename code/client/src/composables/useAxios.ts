@@ -1,9 +1,10 @@
 import { useAuthStore } from '@/stores/auth';
-import { useConfigurationsStore } from '@/stores/configuration';
+// import { useConfigurationsStore } from '@/stores/configuration';
 
 import axios, { AxiosInstance } from 'axios';
 
 export default axios.create({});
+
 export function createAxios(baseUrl?: string, addAuthenticationInterceptor: boolean = true): AxiosInstance {
 	const instance = axios.create({
 		baseURL: baseUrl,
@@ -18,11 +19,9 @@ export function createAxios(baseUrl?: string, addAuthenticationInterceptor: bool
 	return instance;
 }
 export function useApiBuilder(addAuthenticationInterceptor: boolean = true) {
-	const configurationsStore = useConfigurationsStore();
-	const configurations = configurationsStore.configurations;
+	// const configurationsStore = useConfigurationsStore();
+	// const configurations = configurationsStore.configurations;
 	return {
 		createApi: (url: string) => createAxios(url, addAuthenticationInterceptor),
-		createDevelopersPortalApi: () =>
-			createAxios(configurations.integrations.api.developersPortal.baseUrl, addAuthenticationInterceptor),
 	};
 }

@@ -1,5 +1,6 @@
 import RolesEnum from '@/enums/auth/roles';
 import { useAuthStore } from '@/stores/auth';
+import { useConfigurationsStore } from '@/stores/configuration';
 import { usePermissionsStore } from '@/stores/permissions';
 import { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 
@@ -13,10 +14,17 @@ async function canNavigateTo(
 	options: NavigationGuardOption,
 ): Promise<boolean> {
 	const authStore = useAuthStore();
+	if (!authStore.authService) {
+		const configurationsStore = useConfigurationsStore();
+		const configurations = configurationsStore.configurations;
+		await authStore.bootstrapAuthService(configurations);
+		return await canNavigateTo(to, from, options);
+	}
 	const permissionsStore = usePermissionsStore();
 	const userPermissions = permissionsStore.get();
 	if (!options.requiresAuth) return true;
-	if (!authStore.data.isAuthenticated) return false;
+	const isAuthenticated = authStore.isLogged();
+	if (!isAuthenticated) return false;
 	const authorizedRoles: RolesEnum[] = options.authorizedRoles ?? [];
 	if (!authorizedRoles || authorizedRoles.length === 0) return true;
 	if (!userPermissions) return false;
